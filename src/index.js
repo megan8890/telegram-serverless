@@ -1,5 +1,11 @@
 export default {
   async fetch(request, env) {
+  if (new URL(request.url).searchParams.get("debug") === "1") {
+      return Response.json({
+        hasWebhookSecret: Boolean(env.WEBHOOK_SECRET),
+        hasBotToken: Boolean(env.BOT_TOKEN)
+      });
+    }
     if (request.method !== "POST") {
       return new Response("Telegram Serverless Bot is running!");
     }
